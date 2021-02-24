@@ -2,6 +2,7 @@ package com.example.demo;
 
 import javax.persistence.Entity;
 import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
@@ -21,12 +22,14 @@ public class Book {
     private String isbn;
 
     @OneToMany(
+        fetch = FetchType.LAZY,
         mappedBy = "book", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
     private List<BookStorage> units;
 
     @OneToMany(
+        fetch = FetchType.EAGER,
         mappedBy = "book", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true)
@@ -88,8 +91,8 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", isbn=" + isbn +
-                ", units=" + units.toString() +
-                ", transactions=" + transactions.toString() +
+                // ", units=" + units.toString() +
+                // ", transactions=" + transactions.toString() +
                 '}';
     }
 

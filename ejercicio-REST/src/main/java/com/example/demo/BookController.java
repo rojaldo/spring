@@ -6,9 +6,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 public class BookController {
@@ -26,7 +28,8 @@ public class BookController {
         if(myTitle == null){
             return bookRepository.findAll();
         }else {
-            return bookRepository.findByTitle(myTitle);
+            return bookRepository.findAll().stream().filter(c -> c.getTitle().equals(myTitle)).collect(Collectors.toList());
+            // return bookRepository.findByTitle(myTitle);
         }
     }
 
@@ -40,17 +43,9 @@ public class BookController {
 
     // Find
     @GetMapping("/api/v1/books/{id}")
-    BookInfo findOne(@PathVariable Long id) {
+    Book findOne(@PathVariable Long id) {
         Book myBook = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
-        List<Transaction> transactions = transactionsRepository.findAll();
-        ArrayList<Transaction> results = new ArrayList<Transaction>();
-        for (Transaction transaction : transactions) {
-            if(transaction.getBook().getId() == id) {
-                results.add(transaction);
-            }
-        }
-        // System.out.println("Transacciones: " + results.get(0).toString());
-        return new BookInfo(myBook, results);
+        return myBook;
     }
 
     // Save or update

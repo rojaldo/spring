@@ -10,8 +10,9 @@ import java.util.List;
 
 public class BookInfo extends Book{
     List<Transaction> transactions;
+    Book book;
     BookInfo(Book book, List<Transaction> transactions){
-        super(book.getId(), book.getTitle(), book.getAuthor(), book.getIsbn());
+        this.book = new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getIsbn());
         this.transactions = transactions;
     }
 }
