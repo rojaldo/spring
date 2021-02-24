@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,8 +15,12 @@ public class Transaction {
     @GeneratedValue
     private Long id;
 
-    @Column(name="book_id")
-    private Long bookId;
+    // @Column(name="book_id")
+    // private Book book;
+
+    @ManyToOne()
+    @JoinColumn(name = "book_id")
+    private Book book;
 
     @Column(name="user_id")
     private Long userId;
@@ -26,15 +32,15 @@ public class Transaction {
     // avoid this "No default constructor for entity"
     public Transaction() {
     }
-    public Transaction(Long id, Long bookId, Long userId, Long bookStorageId) {
+    public Transaction(Long id, Book book, Long userId, Long bookStorageId) {
         this.id = id;
-        this.bookId = bookId;
+        this.book = book;
         this.userId = userId;
         this.bookStorageId = bookStorageId;
     }
 
-    public Transaction(Long bookId, Long userId, Long bookStorageId) {
-        this.bookId = bookId;
+    public Transaction(Book book, Long userId, Long bookStorageId) {
+        this.book = book;
         this.userId = userId;
         this.bookStorageId = bookStorageId;
     }
@@ -55,12 +61,12 @@ public class Transaction {
         this.userId = userId;
     }
 
-    public Long getBookId() {
-        return bookId;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     public Long getBookStorageId() {
@@ -76,9 +82,9 @@ public class Transaction {
     public String toString() {
         return "Transaction{" +
                 "id=" + id +
-                ", Book ID='" + bookId + '\'' +
+                ", Book='" + book.toString() + '\'' +
                 ", USer ID='" + userId + '\'' +
-                ", Book Storage ID ID='" + bookStorageId + '\'' +
+                ", Book Storage ID='" + bookStorageId + '\'' +
                 '}';
     }
 

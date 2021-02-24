@@ -26,6 +26,11 @@ public class Book {
         orphanRemoval = true)
     private List<BookStorage> units;
 
+    @OneToMany(
+        mappedBy = "book", 
+        cascade = CascadeType.ALL, 
+        orphanRemoval = true)
+    private List<Transaction> transactions;
 
     // avoid this "No default constructor for entity"
     public Book() {
@@ -84,6 +89,7 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", isbn=" + isbn +
                 ", units=" + units.toString() +
+                ", transactions=" + transactions.toString() +
                 '}';
     }
 

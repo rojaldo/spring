@@ -13,20 +13,23 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
+    private int age;
 
     // avoid this "No default constructor for entity"
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName) {
+    public User(Long id, String firstName, String lastName, int age) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.age = age;
     }
 
-    public User(String firstName, String lastName) {
+    public User(String firstName, String lastName, int age) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.age = age;
     }
 
     public Long getId() {
@@ -35,6 +38,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getFirstName() {
@@ -59,6 +70,7 @@ public class User {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", Age='" + age + '\'' +
                 '}';
     }
 

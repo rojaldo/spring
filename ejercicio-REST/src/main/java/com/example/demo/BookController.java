@@ -7,18 +7,27 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 @RestController
 public class BookController {
 
     @Autowired
-    private BookRepository repository;
+    private BookRepository bookRepository;
+
+    @Autowired
+    private TransactionsRepository transactionsRepository;
+
 
     // Find
     @GetMapping("/api/v1/books")
-    List<Book> findAll() {
-        return repository.findAll();
+    List<Book> findAll(@RequestParam(name="title", required=false) String myTitle) {
+        if(myTitle == null){
+            return bookRepository.findAll();
+        }else {
+            return bookRepository.findByTitle(myTitle);
+        }
     }
 
     // Save
@@ -26,26 +35,35 @@ public class BookController {
     // return 201 instead of 200
     @ResponseStatus(HttpStatus.CREATED)
     Book newBook(@RequestBody Book newBook) {
-        return repository.save(newBook);
+        return bookRepository.save(newBook);
     }
 
     // Find
     @GetMapping("/api/v1/books/{id}")
-    Book findOne(@PathVariable Long id) {
-        return repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+    BookInfo findOne(@PathVariable Long id) {
+        Book myBook = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+        List<Transaction> transactions = transactionsRepository.findAll();
+        ArrayList<Transaction> results = new ArrayList<Transaction>();
+        for (Transaction transaction : transactions) {
+            if(transaction.getBook().getId() == id) {
+                results.add(transaction);
+            }
+        }
+        // System.out.println("Transacciones: " + results.get(0).toString());
+        return new BookInfo(myBook, results);
     }
 
     // Save or update
     @PutMapping("/api/v1/books/{id}")
     Book saveOrUpdate(@RequestBody Book newBook, @PathVariable Long id) {
 
-        return repository.findById(id).map(x -> {
+        return bookRepository.findById(id).map(x -> {
             x.setTitle(newBook.getTitle());
             x.setAuthor(newBook.getAuthor());
-            return repository.save(x);
+            return bookRepository.save(x);
         }).orElseGet(() -> {
             newBook.setId(id);
-            return repository.save(newBook);
+            return bookRepository.save(newBook);
         });
     }
 
@@ -53,16 +71,16 @@ public class BookController {
     @PatchMapping("/api/v1/books/{id}")
     Book patch(@RequestBody Map<String, String> update, @PathVariable Long id) {
 
-        return repository.findById(id).map(x -> {
+        return bookRepository.findById(id).map(x -> {
 
             String author = update.get("author");
             String title = update.get("title");
             if (!StringUtils.isEmpty(author)) {
                 x.setAuthor(author);
-                return repository.save(x);
+                return bookRepository.save(x);
             } else if(!StringUtils.isEmpty(title)){
                 x.setTitle(title);
-                return repository.save(x);
+                return bookRepository.save(x);
             } 
             else {
                 throw new BookUnSupportedFieldPatchException(update.keySet());
@@ -76,7 +94,7 @@ public class BookController {
 
     @DeleteMapping("/api/v1/books/{id}")
     void deleteBook(@PathVariable Long id) {
-        repository.deleteById(id);
+        bookRepository.deleteById(id);
     }
 
 }
