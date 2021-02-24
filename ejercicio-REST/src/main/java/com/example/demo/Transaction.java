@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import javax.persistence.Entity;
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
@@ -11,14 +12,20 @@ public class Transaction {
     @Id
     @GeneratedValue
     private Long id;
+
+    @Column(name="book_id")
     private Long bookId;
+
+    @Column(name="user_id")
     private Long userId;
+
+    @Column(name="book_storage_id")
     private Long bookStorageId;
+
 
     // avoid this "No default constructor for entity"
     public Transaction() {
     }
-
     public Transaction(Long id, Long bookId, Long userId, Long bookStorageId) {
         this.id = id;
         this.bookId = bookId;

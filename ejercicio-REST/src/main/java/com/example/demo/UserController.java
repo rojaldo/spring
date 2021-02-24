@@ -10,32 +10,32 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class TransactionsController {
+public class UserController {
 
     @Autowired
-    private TransactionsRepository repository;
+    private UserRepository repository;
 
     // Find
-    @GetMapping("/api/v1/transactions")
-    List<Transaction> findAll() {
+    @GetMapping("/api/v1/users")
+    List<User> findAll() {
         return repository.findAll();
     }
 
     // Save
-    @PostMapping("/api/v1/transactions")
+    @PostMapping("/api/v1/users")
     // return 201 instead of 200
     @ResponseStatus(HttpStatus.CREATED)
-    Transaction newTransaction(@RequestBody Transaction myTransaction) {
-        return repository.save(myTransaction);
+    User newBook(@RequestBody User newBook) {
+        return repository.save(newBook);
     }
 
     // Find
-    @GetMapping("/api/v1/transactions/{id}")
-    Transaction findOne(@PathVariable Long id) {
+    @GetMapping("/api/v1/users/{id}")
+    User findOne(@PathVariable Long id) {
         return repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
     }
 
-    @DeleteMapping("/api/v1/transactions/{id}")
+    @DeleteMapping("/api/v1/users/{id}")
     void deleteBook(@PathVariable Long id) {
         repository.deleteById(id);
     }

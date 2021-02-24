@@ -40,7 +40,7 @@ public class BookController {
     Book saveOrUpdate(@RequestBody Book newBook, @PathVariable Long id) {
 
         return repository.findById(id).map(x -> {
-            x.setName(newBook.getName());
+            x.setTitle(newBook.getTitle());
             x.setAuthor(newBook.getAuthor());
             return repository.save(x);
         }).orElseGet(() -> {
@@ -56,12 +56,12 @@ public class BookController {
         return repository.findById(id).map(x -> {
 
             String author = update.get("author");
-            String name = update.get("name");
+            String title = update.get("title");
             if (!StringUtils.isEmpty(author)) {
                 x.setAuthor(author);
                 return repository.save(x);
-            } else if(!StringUtils.isEmpty(name)){
-                x.setName(name);
+            } else if(!StringUtils.isEmpty(title)){
+                x.setTitle(title);
                 return repository.save(x);
             } 
             else {

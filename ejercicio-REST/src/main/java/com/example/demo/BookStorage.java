@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -10,19 +12,22 @@ public class BookStorage {
     @Id
     @GeneratedValue
     private Long id;
-    private Long bookId;
+
+    @ManyToOne()
+    @JoinColumn(name = "book_id")
+    private Book book;
 
     // avoid this "No default constructor for entity"
     public BookStorage() {
     }
 
-    public BookStorage(Long id, Long bookId) {
+    public BookStorage(Long id, Book book) {
         this.id = id;
-        this.bookId = bookId;
+        this.book = book;
     }
 
-    public BookStorage(Long bookId) {
-        this.bookId = bookId;
+    public BookStorage(Book book) {
+        this.book = book;
     }
 
     public Long getId() {
@@ -33,19 +38,19 @@ public class BookStorage {
         this.id = id;
     }
 
-    public Long getBookId() {
-        return bookId;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     @Override
     public String toString() {
         return "BookStorage{" +
                 "id=" + id +
-                ", Book ID='" + bookId + '\'' +
+                ", Book ='" + book.toString() + '\'' +
                 '}';
     }
 

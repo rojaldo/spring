@@ -1,32 +1,45 @@
 package com.example.demo;
 
 import javax.persistence.Entity;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.List;
+
 
 @Entity
+@Table(name = "book")
 public class Book {
 
     @Id
     @GeneratedValue
     private Long id;
-    private String name;
+    private String title;
     private String author;
     private String isbn;
+
+    @OneToMany(
+        mappedBy = "book", 
+        cascade = CascadeType.ALL, 
+        orphanRemoval = true)
+    private List<BookStorage> units;
+
 
     // avoid this "No default constructor for entity"
     public Book() {
     }
 
-    public Book(Long id, String name, String author, String isbn) {
+    public Book(Long id, String title, String author, String isbn) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.author = author;
         this.isbn = isbn;
     }
 
-    public Book(String name, String author, String isbn) {
-        this.name = name;
+    public Book(String title, String author, String isbn) {
+        this.title = title;
         this.author = author;
         this.isbn = isbn;
     }
@@ -39,12 +52,12 @@ public class Book {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getAuthor() {
@@ -67,9 +80,10 @@ public class Book {
     public String toString() {
         return "Book{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", isbn=" + isbn +
+                ", units=" + units.toString() +
                 '}';
     }
 
