@@ -19,6 +19,7 @@ public class ViewController {
 
     @GetMapping("/users")
     public String users(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+        model.addAttribute("myClass", "card-title");
         model.addAttribute("users", repository.findAll());
         return "users.html";
     }

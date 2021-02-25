@@ -19,7 +19,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" th:each="user: ${users}">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title" th:text="${user.firstName}+' '+${user.lastName}"></h4>
+                        <h4 th:class="${myClass}" th:text="${user.firstName}+' '+${user.lastName}"></h4>
                         <p class="card-text" / th:text="${user.age}">
                     </div>
                 </div>
