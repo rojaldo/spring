@@ -22,7 +22,7 @@ public class DemoApplication {
             bookRepository.save(new Book("The Life-Changing Magic of Tidying Up", "Marie Kondo", "978-3-16-148410-1"));
             bookRepository.save(new Book("Refactoring: Improving the Design of Existing Code", "Martin Fowler", "978-3-16-148410-2"));
             userRepository.save(new User("Uno", "Cualquiera",25));
-            userRepository.save(new User("Otro", "Más",17));
+            userRepository.save(new User("Otro", "Más",19));
             bookStorageRepository.save(new BookStorage(new Book(1L,"1984", "Orwell", "978-3-16-148410-0")));
             bookStorageRepository.save(new BookStorage(new Book(1L,"1984", "Orwell", "978-3-16-148410-0")));
             bookStorageRepository.save(new BookStorage(new Book(1L,"1984", "Orwell", "978-3-16-148410-0")));

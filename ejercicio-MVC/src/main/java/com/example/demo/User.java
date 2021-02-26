@@ -3,6 +3,10 @@ package com.example.demo;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Entity
@@ -11,8 +15,18 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotNull
+	@Size(min=2, max=20)
     private String firstName;
+
+    @NotNull
+	@Size(min=2, max=20)
     private String lastName;
+
+    @NotNull
+    @Min(18)
+    @Max(99)
     private int age;
 
     // avoid this "No default constructor for entity"

@@ -17,6 +17,13 @@ public class ViewController {
     @Autowired
     private UserRepository repository;
     
+
+    @GetMapping("/")
+    public String angular() {
+        return "index.html";
+    }
+
+
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
@@ -37,7 +44,10 @@ public class ViewController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveUser(@ModelAttribute User user, BindingResult errors, Model model) {
+    public String saveUser(@ModelAttribute User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+			return "redirect:/new_user_form";
+		}
         repository.save(user);
         return "redirect:/users";
     }
